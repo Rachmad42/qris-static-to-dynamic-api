@@ -10,8 +10,8 @@ A lightweight Node.js API for converting static QRIS payloads into dynamic QRIS 
 ## Installation
 
 ```bash
-git clone <your-repository-url>
-cd <repository-folder>
+git clone https://github.com/Rachmad42/qris-static-to-dynamic-api.git
+cd qris-static-to-dynamic-api
 npm install
 ```
 
