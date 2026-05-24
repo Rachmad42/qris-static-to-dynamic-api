@@ -4,7 +4,9 @@
   "description": "API to convert static QRIS payloads to dynamic QRIS payloads and detect QRIS codes from images.",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "worker:dev": "npx wrangler dev",
+    "worker:deploy": "npx wrangler deploy"
   },
   "keywords": [
     "qris",
