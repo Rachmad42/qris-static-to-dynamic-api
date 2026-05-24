@@ -1,10 +1,11 @@
 {
   "name": "qris-static-to-dynamic-api",
   "version": "1.0.0",
-  "description": "API to convert static QRIS payloads to dynamic QRIS payloads and detect QRIS codes from images.",
+  "description": "API to convert static QRIS payloads to dynamic QRIS payloads.",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "test": "node --test"
   },
   "keywords": [
     "qris",
@@ -12,8 +13,5 @@
     "api"
   ],
   "license": "MIT",
-  "dependencies": {
-    "jimp": "^1.6.1",
-    "jsqr": "^1.4.0"
-  }
+  "dependencies": {}
 }

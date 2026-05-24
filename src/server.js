@@ -1,30 +1,10 @@
 "use strict";
 
 const http = require("http");
-const fs = require("fs/promises");
-const path = require("path");
-const { detectQrFromBase64, detectQrFromImageBuffer } = require("./qr-image");
 const { toDynamicQris, isValidCrc, normalizeAmount } = require("./qris");
 
 const PORT = Number(process.env.PORT || 3000);
 const MAX_BODY_SIZE = 5 * 1024 * 1024;
-const SAMPLE_IMAGE_PATH = path.join(__dirname, "..", "QRIS_RD_STORE.png");
-
-function getQrisStatus(text) {
-  try {
-    const crcValid = isValidCrc(text);
-
-    return {
-      isQris: crcValid,
-      crcValid,
-    };
-  } catch {
-    return {
-      isQris: false,
-      crcValid: false,
-    };
-  }
-}
 
 function sendJson(response, statusCode, payload) {
   response.writeHead(statusCode, {
@@ -102,55 +82,6 @@ async function handleRequest(request, response) {
 
     return;
   }
-
-  if (request.method === "POST" && url.pathname === "/qris/detect") {
-    try {
-      const body = await readJsonBody(request);
-      const detection = await detectQrFromBase64(body.imageBase64);
-      const qrisStatus = getQrisStatus(detection.text);
-
-      sendJson(response, 200, {
-        ok: true,
-        data: {
-          text: detection.text,
-          ...qrisStatus,
-          location: detection.location,
-        },
-      });
-    } catch (error) {
-      sendJson(response, 400, {
-        ok: false,
-        error: error.message,
-      });
-    }
-
-    return;
-  }
-
-  // if (request.method === "GET" && url.pathname === "/qris/detect/sample") {
-  //   try {
-  //     const imageBuffer = await fs.readFile(SAMPLE_IMAGE_PATH);
-  //     const detection = await detectQrFromImageBuffer(imageBuffer);
-  //     const qrisStatus = getQrisStatus(detection.text);
-
-  //     sendJson(response, 200, {
-  //       ok: true,
-  //       data: {
-  //         file: path.basename(SAMPLE_IMAGE_PATH),
-  //         text: detection.text,
-  //         ...qrisStatus,
-  //         location: detection.location,
-  //       },
-  //     });
-  //   } catch (error) {
-  //     sendJson(response, 400, {
-  //       ok: false,
-  //       error: error.message,
-  //     });
-  //   }
-
-  //   return;
-  // }
 
   sendJson(response, 404, {
     ok: false,
